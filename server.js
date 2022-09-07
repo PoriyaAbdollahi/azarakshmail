@@ -1,12 +1,20 @@
 const express = require("express");
-const dotenv = require("dotenv");
+
 const nodemailer = require("nodemailer");
-dotenv.config();
+
 
 
 const app = express()
 app.use(express.static("public"));
 app.use(express.json()) // to accept JSON data
+
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
 
 app.get("/", (req, res) => {
     res.send("API is running abc")
@@ -48,5 +56,3 @@ app.post("/", (req, res) => {
 const PORT =  5000
 
 app.listen(5000, console.log(`server started on PORT ${PORT}`))
-
-module.exports = app;
